@@ -102,6 +102,10 @@ th{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.4px}
 
 <div class="disc"><b>Method &amp; limits.</b> Public Solana ledger via Helius RPC + enhanced-tx API; market data Dexscreener/GeckoTerminal; exchange labels Solscan (heuristic). "Wash" = SOL round-tripped by wallets that both bought and sold the same mint above 1 SOL within the sampled window (a conservative floor). Forward detections are <b>candidates</b> from a behavioural heuristic with an <b>unvalidated false-positive rate</b>; MEV/arb/market-making are not yet separately excluded. The case-study snapshot is frozen and hash-pinned; live scanner figures update each cycle. Wallets are <b>pseudonymous</b>; <b>no real-world identity, and no named person or company, is asserted to be a participant.</b> This is on-chain analysis and protected commentary — <b>not legal advice, not an accusation, and nothing here has been adjudicated.</b> RICO terms appear solely as an analytical framework for the reader to weigh.</div>
 
+<div style="text-align:center;margin-top:22px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--mut)">
+ Real forensic chain analysis — not larping. &nbsp;·&nbsp; I'm not vengeful; I just wish justice for all. &nbsp;·&nbsp; <a href="https://freestacc.io" target="_blank" rel="noopener">freestacc.io</a>
+</div>
+
 <script>
 const f=(n)=>n==null?'—':n>=1e9?(n/1e9).toFixed(2)+'B':n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?(n/1e3).toFixed(1)+'k':(''+Math.round(n));
 const pc=(x)=>x==null?'—':(x*100).toFixed(1)+'%';
