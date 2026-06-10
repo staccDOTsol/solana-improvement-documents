@@ -1,0 +1,167 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pump.fun Coordinated Wash-Trading Cluster Monitor</title>
+<style>
+:root{--bg:#0a0b0f;--panel:#13151c;--panel2:#1a1d27;--mut:#8b93a7;--acc:#ff4d4d;--acc2:#ffb000;--grn:#28d17c;--blu:#4d8cff;--line:#262a36}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#e8eaf0;font:15px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--blu);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1040px;margin:0 auto;padding:22px 18px 90px}
+header{border-bottom:1px solid var(--line);padding-bottom:16px}
+h1{font-size:25px;line-height:1.25;margin:0 0 6px;letter-spacing:-.3px}
+.sub{color:var(--mut);font-size:14px}
+h2{font-size:19px;margin:34px 0 6px;border-left:3px solid var(--acc);padding-left:10px}
+h3{font-size:13px;margin:18px 0 6px;color:var(--acc2);text-transform:uppercase;letter-spacing:.5px}
+.mut{color:var(--mut)}.red{color:var(--acc)}.amber{color:var(--acc2)}.grn{color:var(--grn)}.blu{color:var(--blu)}
+.statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:14px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:13px}
+.stat .n{font-size:24px;font-weight:700}.stat .l{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.4px;margin-top:2px}
+.framework{background:linear-gradient(180deg,#161019,#13151c);border:1px solid #2a1a3a;border-left:3px solid #9b6dff;padding:12px 14px;border-radius:8px;margin:14px 0;font-size:14px}
+.framework b{color:#c4a0ff}
+.limits{background:#0e1518;border:1px solid #173038;border-left:3px solid var(--grn);border-radius:8px;padding:14px;margin:14px 0;font-size:13.5px}
+.limits b{color:var(--grn)}
+.limits ul{margin:8px 0 0;padding-left:18px}.limits li{margin:5px 0}
+.live{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--grn);margin-right:6px;animation:p 1.5s infinite}
+@keyframes p{50%{opacity:.3}}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+th{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+.mono{font-family:ui-monospace,Menlo,monospace;font-size:12px}.r{text-align:right}
+.tree{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:15px;font-family:ui-monospace,monospace;font-size:12.5px;overflow-x:auto;white-space:pre;line-height:1.7}
+.node{padding:2px 6px;border-radius:5px}.cex{background:#0a1a2a;color:#7fb0ff;border:1px solid #1a3a5a}
+.callout{background:#151012;border:1px solid #2a1a1f;border-left:3px solid var(--acc2);border-radius:8px;padding:14px;margin:14px 0}
+.disc{color:var(--mut);font-size:12px;background:var(--panel);border:1px dashed var(--line);border-radius:8px;padding:14px;margin-top:26px}
+.badge{display:inline-block;background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:1px 7px;font-size:11px;color:var(--mut)}
+.scorebar{height:8px;background:var(--panel2);border-radius:6px;overflow:hidden;display:inline-block;width:70px;vertical-align:middle}
+.scorebar>i{display:block;height:100%;background:linear-gradient(90deg,var(--amber,#ffb000),var(--acc))}
+.seed{color:var(--acc2)}
+</style></head><body><div class="wrap">
+
+<header>
+ <h1>pump.fun — Coordinated Wash-Trading Cluster Monitor</h1>
+ <div class="sub">A live, on-chain detector for launch cohorts that exhibit a specific behavioural signature: a recurring set of wallets seeding coordinated, risk-free round-trip ("wash") volume at token launch. It surfaces <b>candidates consistent with fabricated volume</b> and watches forward for new wallets and clusters matching the same fingerprint. It is a triage and hypothesis-generation tool — <b>not an adjudication</b>.</div>
+ <div class="sub" style="margin-top:8px"><span class="live"></span><span id="hdr">connecting to scanner…</span></div>
+</header>
+
+<div class="framework"><b>RICO is used here only as an analytical lens, not a conclusion.</b> The Racketeer Influenced and Corrupt Organizations Act (18 U.S.C. §§ 1961–1968) supplies a vocabulary — <i>enterprise</i> (§1961(4)), <i>pattern</i> (§1961(5)), predicate acts such as wire fraud (§1343) and money laundering (§1956), and the <i>operation-or-management</i> test of <i>Reves v. Ernst &amp; Young</i>. On-chain data can show coordinated, risk-free round-tripping and recurring wallet structure; it <b>cannot, by itself,</b> establish common beneficial control, fraudulent intent (scienter), reliance, proximate cause (<i>Anza</i>/<i>Hemi</i>), or that any named person or company is a member of a legal "enterprise." Those are questions for counsel and a court, not for a heuristic.</div>
+
+<div class="limits"><b>What this establishes — and what it does not.</b>
+<ul>
+<li><b>Establishes:</b> specific wallets generated buy/sell volume on the same mint with net position ≈ 0 above a 1-SOL floor within the sampled window — i.e. <i>fictitious volume in the economic sense</i>, and a recurring set of wallets appearing at <i>t=0</i> across otherwise-disjoint launches.</li>
+<li><b>Does NOT establish common control.</b> Shared funding/timing is consistent with one operator <i>or</i> with shared bundler/SaaS bot infrastructure sold to many customers, MEV/arbitrage bots, or market-maker churn. No controller-clustering error rate has been validated here.</li>
+<li><b>MEV / arbitrage not fully excluded.</b> Same-block round-tripping also arises from sandwich bots and bonding-curve↔AMM arbitrage; residual wash net of those is not separately reported yet.</li>
+<li><b>Selection bias.</b> The "core" set is defined by the signature under test, so a high in-set wash ratio is partly tautological. Platform-wide base rates (pump.fun graduation historically ≈0.5–1.8%) are the proper denominator and are not yet controlled for.</li>
+<li><b>The "organic" control is illustrative (n=1), not a matched cohort.</b> Graduation deltas are confounded by KOL marketing, memetics, timing and luck.</li>
+<li><b>Exchange labels are heuristic terminals.</b> A "Kraken" tag (from Solscan) marks a KYC boundary where the on-chain trail ends; deposits there are consistent with any user off-ramping and are <b>not</b> alleged to be enterprise members.</li>
+<li><b>Fee math is arithmetic, not intent.</b> If X% of a coin's volume is wash, X% of the protocol fee it generates is wash-derived — this says nothing about the platform's knowledge or intent. pump.fun fees are now dynamic (≈0.05–0.95% by cap), so a flat 1% model is an approximation.</li>
+</ul></div>
+
+<h2><span class="live"></span>Live forward scanner — new clusters &amp; wallets matching the fingerprint</h2>
+<p class="mut">The scanner watches the seed fingerprint wallets, and any wallet it newly observes exhibiting the signature at ≥2 distinct clusters is promoted into the watchlist — so the fingerprint set grows as the behaviour recurs. Scores combine fleet recurrence, count of fresh coordinated big buyers, and wash ratio (0–1).</p>
+<div class="statgrid">
+ <div class="stat"><div class="n blu" id="s_cand">—</div><div class="l">candidate clusters detected</div></div>
+ <div class="stat"><div class="n amber" id="s_disc">—</div><div class="l">recurring wallets discovered (≥2 clusters)</div></div>
+ <div class="stat"><div class="n" id="s_track">—</div><div class="l">wallets under observation</div></div>
+ <div class="stat"><div class="n grn" id="s_seed">—</div><div class="l">seed fingerprint wallets</div></div>
+</div>
+<h3>Candidate clusters (live)</h3>
+<table><thead><tr><th>mint</th><th class="r">score</th><th class="r">fleet hits</th><th class="r">fresh big buyers</th><th class="r">wash %</th><th class="r">gross SOL</th><th class="r">first seen</th></tr></thead><tbody id="candtbl"><tr><td class="mut" colspan="7">waiting for first scan cycle…</td></tr></tbody></table>
+<h3>Newly-discovered fingerprint wallets</h3>
+<table><thead><tr><th>wallet</th><th class="r">type</th><th class="r"># clusters</th><th class="r">last seen</th></tr></thead><tbody id="disctbl"><tr><td class="mut" colspan="4">none yet — promoted after a wallet recurs across ≥2 clusters</td></tr></tbody></table>
+<h3>Scanner log</h3>
+<div class="tree" id="scanlog" style="max-height:200px">starting…</div>
+
+<h2>Frozen case study — the originating cluster</h2>
+<p class="mut">The signature was derived from one cluster captured in a <b>frozen, hash-pinned snapshot</b> (so cited figures don't drift). Snapshot id: <span class="badge mono" id="snaphash">—</span>. These are point estimates from the sampled windows, not validated against ground truth.</p>
+<div class="statgrid">
+ <div class="stat"><div class="n red" id="c_wash">—</div><div class="l">aggregate wash ratio (round-trip ÷ buys)</div></div>
+ <div class="stat"><div class="n amber" id="c_vol">—</div><div class="l">gross volume measured (consistent w/ fabricated)</div></div>
+ <div class="stat"><div class="n" id="c_coins">—</div><div class="l">coins in case-study sweep</div></div>
+ <div class="stat"><div class="n grn" id="c_grad">—</div><div class="l">graduation rate (vs ~0.5–1.8% platform base rate)</div></div>
+</div>
+
+<h3>Two exhibits (run the machine hardest)</h3>
+<div class="statgrid">
+ <div class="stat"><div class="l mono">SPCX</div><div class="n red" id="x_spcx">—</div><div class="l">of buy volume round-tripped by the same wallets</div></div>
+ <div class="stat"><div class="l mono">IRAN</div><div class="n red" id="x_iran">—</div><div class="l">of buy volume round-tripped by the same wallets</div></div>
+</div>
+<p class="mut">In both, coordinated buyers each put in ~45–75 SOL and sold ~the same back (130+ buys / 130+ sells each, net ≈ 0). Capital shells are fresh per launch (0 overlap); the small dust-distribution fleet recurs — the basis of the fingerprint.</p>
+
+<h3>Funding topology (CEX = labeled terminal, not a network node)</h3>
+<div class="tree" id="tree"></div>
+
+<h2>Fee attribution (arithmetic only)</h2>
+<table><thead><tr><th>bucket (case-study sweep)</th><th class="r">SOL</th><th class="r">USD</th></tr></thead><tbody>
+ <tr><td>Gross traded volume (buy+sell)</td><td class="r" id="f_vol"></td><td class="r" id="f_volu"></td></tr>
+ <tr><td>— round-tripped wash volume</td><td class="r red" id="f_wash"></td><td class="r red" id="f_washu"></td></tr>
+ <tr><td>Solana base fees</td><td class="r" id="f_solfee"></td><td class="r" id="f_solfeeu"></td></tr>
+ <tr><td>Jito MEV tips</td><td class="r" id="f_jito"></td><td class="r" id="f_jitou"></td></tr>
+ <tr><td>pump.fun/PumpSwap protocol fee (≈1% model)</td><td class="r amber" id="f_pump"></td><td class="r amber" id="f_pumpu"></td></tr>
+ <tr><td>— fraction attributable to wash volume</td><td class="r red" id="f_pumpw"></td><td class="r red" id="f_pumpwu"></td></tr>
+</tbody></table>
+<div class="callout">The open question, posed neutrally: a platform fee is a cut of volume. On these specific coins, a large share of that volume is wallets transacting with themselves. <b>What fraction of fee revenue on flagged coins is wash-derived, and what (if anything) follows from that, is for the reader and for counsel to weigh — this tool only measures the volume.</b></div>
+
+<div class="disc"><b>Method &amp; limits.</b> Public Solana ledger via Helius RPC + enhanced-tx API; market data Dexscreener/GeckoTerminal; exchange labels Solscan (heuristic). "Wash" = SOL round-tripped by wallets that both bought and sold the same mint above 1 SOL within the sampled window (a conservative floor). Forward detections are <b>candidates</b> from a behavioural heuristic with an <b>unvalidated false-positive rate</b>; MEV/arb/market-making are not yet separately excluded. The case-study snapshot is frozen and hash-pinned; live scanner figures update each cycle. Wallets are <b>pseudonymous</b>; <b>no real-world identity, and no named person or company, is asserted to be a participant.</b> This is on-chain analysis and protected commentary — <b>not legal advice, not an accusation, and nothing here has been adjudicated.</b> RICO terms appear solely as an analytical framework for the reader to weigh.</div>
+
+<script>
+const f=(n)=>n==null?'—':n>=1e9?(n/1e9).toFixed(2)+'B':n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?(n/1e3).toFixed(1)+'k':(''+Math.round(n));
+const pc=(x)=>x==null?'—':(x*100).toFixed(1)+'%';
+const ago=(t)=>{const s=Math.floor(Date.now()/1000)-t;if(s<60)return s+'s';if(s<3600)return Math.floor(s/60)+'m';if(s<86400)return Math.floor(s/3600)+'h';return Math.floor(s/86400)+'d';};
+const SOLP=64.30;
+async function load(){
+ let d; try{ d=await (await fetch('/api/state',{cache:'no-store'})).json(); }catch(e){ document.getElementById('hdr').textContent='scanner unreachable, retrying…'; return; }
+ const S=d.snapshot||{}, A=(S.agg)||{};
+ document.getElementById('hdr').innerHTML=`scanner live · ${d.candidates.length} candidate clusters · ${d.wallets_tracked||0} wallets observed · server ${new Date(d.server_time*1000).toISOString().slice(11,19)} UTC`;
+ document.getElementById('snaphash').textContent=d.snapshot_hash;
+ // live scanner stats
+ document.getElementById('s_cand').textContent=d.candidates.length;
+ document.getElementById('s_disc').textContent=(d.discovered_wallets||[]).length;
+ document.getElementById('s_track').textContent=d.wallets_tracked||0;
+ document.getElementById('s_seed').textContent=(d.fleet||[]).length;
+ // candidates table
+ const ct=document.getElementById('candtbl');
+ if(d.candidates.length){ ct.innerHTML=''; d.candidates.forEach(r=>{const tr=document.createElement('tr');
+  tr.innerHTML=`<td class="mono"><a href="https://solscan.io/token/${r.mint}" target="_blank">${r.mint.slice(0,10)}…</a></td>
+   <td class="r"><span class="scorebar"><i style="width:${Math.round(r.score*100)}%"></i></span> ${r.score}</td>
+   <td class="r">${r.fleet_hits}</td><td class="r">${r.n_big_buyers}</td><td class="r red">${pc(r.wash_ratio)}</td>
+   <td class="r">${f(r.gross_sol)}</td><td class="r mut">${ago(r.first_seen)} ago</td>`; ct.appendChild(tr);});}
+ // discovered wallets
+ const dt=document.getElementById('disctbl');
+ if((d.discovered_wallets||[]).length){ dt.innerHTML=''; d.discovered_wallets.forEach(w=>{const tr=document.createElement('tr');
+  tr.innerHTML=`<td class="mono ${w.seed?'seed':''}"><a href="https://solscan.io/account/${w.addr}" target="_blank">${w.addr.slice(0,12)}…</a></td>
+   <td class="r">${w.seed?'<span class="seed">seed</span>':'<span class="amber">discovered</span>'}</td>
+   <td class="r">${w.recurrence}</td><td class="r mut">${ago(w.last_seen)} ago</td>`; dt.appendChild(tr);});}
+ // scan log
+ document.getElementById('scanlog').textContent=(d.scan_log||[]).map(l=>new Date(l.ts*1000).toISOString().slice(11,19)+'  '+l.msg).join('\n')||'…';
+ // case study
+ document.getElementById('c_wash').textContent=pc(A.wash_ratio);
+ document.getElementById('c_vol').textContent='$'+f((A.vol_usd)||0);
+ document.getElementById('c_coins').textContent=(S.done!=null?S.done:'—')+' / '+(S.ncore||'—');
+ document.getElementById('c_grad').textContent=(S.grad_pct!=null?S.grad_pct+'%':'—');
+ document.getElementById('x_spcx').textContent=S.spcx?pc(S.spcx.wash_ratio):'—';
+ document.getElementById('x_iran').textContent=S.iran?pc(S.iran.wash_ratio):'—';
+ // fee table
+ const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+ set('f_vol',f(A.vol_sol)+' SOL'); set('f_volu','$'+f(A.vol_usd));
+ set('f_wash',f(A.wash_sol)+' SOL'); set('f_washu','$'+f(A.wash_usd));
+ set('f_solfee',(A.solfee_sol||0).toFixed(1)+' SOL'); set('f_solfeeu','$'+f(A.solfee_usd));
+ set('f_jito',f(A.jito_sol)+' SOL'); set('f_jitou','$'+f(A.jito_usd));
+ set('f_pump',f(A.pump_fee_sol)+' SOL'); set('f_pumpu','$'+f(A.pump_fee_usd));
+ set('f_pumpw',f(A.pump_fee_wash_sol)+' SOL'); set('f_pumpwu','$'+f(A.pump_fee_wash_usd));
+ // tree
+ document.getElementById('tree').innerHTML=`  <span class="node cex">[ CEX hot wallet — heuristic label ]</span>   ← KYC boundary; trail ends here, NOT a network node
+        │  withdrawal (identity off-chain)
+        ▼
+  funding / treasury layer ......... pre-funded source wallets
+        │  fan-out via throwaway splitter wallets (fixed-size hops)   ◄ layering pattern (not proof of §1956 intent)
+        ▼
+  disposable creator shells ........ fresh wallet per coin, abandoned after launch
+        │
+        ▼
+  capital + wash fleet ............. fresh ~50-SOL shells per launch, buy≈sell, net≈0   ◄ fabricated-volume signature
+        │  + recurring dust fleet (the fingerprint, reused across launches)
+        ▼
+  pump.fun bonding curve / PumpSwap  ← collects protocol fee on every leg (incl. wash legs)`;
+}
+load(); setInterval(load, 20000);
+</script>
+</div></body></html>
