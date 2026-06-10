@@ -244,6 +244,7 @@ def state():
             "scan_log":logs,"server_time":int(time.time())}
 
 PAGE = open("page.html","rb").read() if os.path.exists("page.html") else b"<h1>loading...</h1>"
+OG = open("og.png","rb").read() if os.path.exists("og.png") else b""
 
 class H(BaseHTTPRequestHandler):
     def log_message(self, *a): pass
@@ -257,6 +258,7 @@ class H(BaseHTTPRequestHandler):
     def do_GET(self):
         p=self.path.split("?")[0]
         if p=="/healthz": return self._send(200,b"ok","text/plain")
+        if p in ("/og.png","/og") and OG: return self._send(200, OG, "image/png")
         if p=="/api/state":
             try: body=json.dumps(state()).encode()
             except Exception as e: body=json.dumps({"error":str(e)}).encode()
