@@ -1,9 +1,9 @@
 {
- "updated": "2026-06-10 07:54 UTC",
+ "updated": "2026-06-10 07:55 UTC",
  "solp": 64.3,
  "ncore": 985,
- "done": 304,
- "progress": 30.9,
+ "done": 375,
+ "progress": 38.1,
  "spcx": {
   "mint": "9scdq9cFQzmJdh83317Dfc499G7yCrcBCJ1bpFrMWbEs",
   "swaps": 3638,
@@ -170,19 +170,19 @@
  ],
  "big_overlap": 0,
  "agg": {
-  "vol_sol": 357296,
-  "wash_sol": 150254,
-  "wash_ratio": 0.8473,
-  "solfee_sol": 141.3,
-  "jito_sol": 27.67,
-  "pump_fee_sol": 3573.0,
-  "pump_fee_wash_sol": 3027.4,
-  "vol_usd": 22974152,
-  "wash_usd": 9661332,
-  "pump_fee_usd": 229742,
-  "pump_fee_wash_usd": 194663,
-  "solfee_usd": 9085,
-  "jito_usd": 1779
+  "vol_sol": 418544,
+  "wash_sol": 172912,
+  "wash_ratio": 0.8314,
+  "solfee_sol": 189.7,
+  "jito_sol": 35.56,
+  "pump_fee_sol": 4185.4,
+  "pump_fee_wash_sol": 3479.7,
+  "vol_usd": 26912386,
+  "wash_usd": 11118229,
+  "pump_fee_usd": 269124,
+  "pump_fee_wash_usd": 223743,
+  "solfee_usd": 12198,
+  "jito_usd": 2287
  },
  "univ_size": 985,
  "net_indexed": 505,
@@ -281,6 +281,15 @@
    "solfee": 0.0276
   },
   {
+   "mint": "3JsVDgfLWe1j1xM1Hj6aarixR3HxVhBh5o1oJRTjfeKf",
+   "vol": 17529.1,
+   "wash": 8683.8,
+   "wr": 0.9968,
+   "nw": 30,
+   "jito": 0,
+   "solfee": 0.02934
+  },
+  {
    "mint": "DCgMTBMGubSjK1nh2g1DP1acERBfS3NwsL8yhLmj342B",
    "vol": 14084.3,
    "wash": 6989.9,
@@ -306,6 +315,15 @@
    "nw": 20,
    "jito": 0.0,
    "solfee": 0.02673
+  },
+  {
+   "mint": "3BBUpDubzDirjoZMaJ64PXSjEdWrLG7bDPbcEhGyJT2h",
+   "vol": 12209.1,
+   "wash": 6045.0,
+   "wr": 0.9902,
+   "nw": 29,
+   "jito": 0.0,
+   "solfee": 0.02222
   },
   {
    "mint": "7ojwKsKL6HgKFWZzgAkgv6xCpkYw4wFfC6kRs5gzT3a",
@@ -344,6 +362,15 @@
    "solfee": 0.01431
   },
   {
+   "mint": "3fvQoAfQBECQGxK16XWVNYMoXorgFoT5ZbvkGFNdUAxL",
+   "vol": 3922.3,
+   "wash": 1791.9,
+   "wr": 0.9102,
+   "nw": 78,
+   "jito": 0,
+   "solfee": 0.00902
+  },
+  {
    "mint": "3wJEzy36XzeaHjXr2U7hKnHbKpqTkttCggWfQTdYRrmz",
    "vol": 3860.1,
    "wash": 1896.2,
@@ -351,6 +378,15 @@
    "nw": 30,
    "jito": 0.0,
    "solfee": 0.0135
+  },
+  {
+   "mint": "EaAAwVnGWn7d3QUfT8qToKyxebs1qKEPjdqfCxQZpump",
+   "vol": 3743.5,
+   "wash": 1142.4,
+   "wr": 0.5959,
+   "nw": 265,
+   "jito": 0.1722,
+   "solfee": 0.12262
   },
   {
    "mint": "7HLLPVBo6jfdoxfZ9cN2yoWSb3FJ9ihVF4Mxh7AmjeHP",
@@ -405,42 +441,6 @@
    "nw": 20,
    "jito": 0.0002,
    "solfee": 0.00798
-  },
-  {
-   "mint": "8HzRWh3zdW7ewhjE16sCowoxeKZZ9hF3TjhCwqVMpump",
-   "vol": 2536.6,
-   "wash": 333.9,
-   "wr": 0.2677,
-   "nw": 81,
-   "jito": 0.0152,
-   "solfee": 0.08976
-  },
-  {
-   "mint": "24qykEsn4M5WJqh5sYWuF2Xxp3GMyoSdfPxJ6W2qpump",
-   "vol": 2491.5,
-   "wash": 1227.6,
-   "wr": 0.9776,
-   "nw": 14,
-   "jito": 0.0003,
-   "solfee": 0.04973
-  },
-  {
-   "mint": "AsTtCBhYgtZwEgnSbN9MHQhs1pwCYJLxX543bDq7pump",
-   "vol": 2359.2,
-   "wash": 183.2,
-   "wr": 0.1508,
-   "nw": 8,
-   "jito": 0.0627,
-   "solfee": 0.10483
-  },
-  {
-   "mint": "5rEkWxPbgq2LVULyCcsGUUqopH7PxLy7mXmxagzepump",
-   "vol": 1917.7,
-   "wash": 679.7,
-   "wr": 0.711,
-   "nw": 103,
-   "jito": 0.8264,
-   "solfee": 0.17865
   }
  ]
 }
