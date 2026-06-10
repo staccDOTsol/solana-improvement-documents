@@ -1,9 +1,9 @@
 {
- "updated": "2026-06-10 08:05 UTC",
- "solp": 64.42,
+ "updated": "2026-06-10 08:10 UTC",
+ "solp": 64.015,
  "ncore": 985,
- "done": 679,
- "progress": 68.9,
+ "done": 834,
+ "progress": 84.7,
  "spcx": {
   "mint": "9scdq9cFQzmJdh83317Dfc499G7yCrcBCJ1bpFrMWbEs",
   "swaps": 3638,
@@ -170,43 +170,43 @@
  ],
  "big_overlap": 0,
  "agg": {
-  "vol_sol": 731069,
-  "wash_sol": 299098,
-  "wash_ratio": 0.8261,
-  "solfee_sol": 344.97,
-  "jito_sol": 68.31,
-  "pump_fee_sol": 7310.7,
-  "pump_fee_wash_sol": 6039.2,
-  "vol_usd": 47095465,
-  "wash_usd": 19267867,
-  "pump_fee_usd": 470955,
-  "pump_fee_wash_usd": 389047,
-  "solfee_usd": 22223,
-  "jito_usd": 4401
+  "vol_sol": 828365,
+  "wash_sol": 333501,
+  "wash_ratio": 0.8138,
+  "solfee_sol": 434.17,
+  "jito_sol": 86.34,
+  "pump_fee_sol": 8283.7,
+  "pump_fee_wash_sol": 6741.6,
+  "vol_usd": 53027798,
+  "wash_usd": 21349060,
+  "pump_fee_usd": 530278,
+  "pump_fee_wash_usd": 431566,
+  "solfee_usd": 27794,
+  "jito_usd": 5527
  },
  "univ_size": 985,
  "net_indexed": 505,
  "tiers": {
   "12500": 297,
   "25000": 250,
-  "50000": 209,
-  "69000": 183,
+  "50000": 208,
+  "69000": 184,
   "100000": 156,
-  "250000": 105,
+  "250000": 104,
   "1000000": 65
  },
  "ntiers_total": 514,
- "net_vol24": 424926038,
- "net_liq": 62779912,
+ "net_vol24": 431012001,
+ "net_liq": 62624890,
  "graduated": 360,
  "grad_pct": 70.0,
  "tier_pct": {
   "12500": 57.8,
   "25000": 48.6,
-  "50000": 40.7,
-  "69000": 35.6,
+  "50000": 40.5,
+  "69000": 35.8,
   "100000": 30.4,
-  "250000": 20.4,
+  "250000": 20.2,
   "1000000": 12.6
  },
  "mines": {
@@ -214,9 +214,18 @@
   "vol_sol": 840,
   "wash_sol": 0,
   "graduated": 0,
-  "vol_usd": 54100
+  "vol_usd": 53760
  },
  "core_top": [
+  {
+   "mint": "E4xu2Y8cY8DEmsZGP5aPRWZL5LxYxFtBLnGzkhWaUz9B",
+   "vol": 41990.8,
+   "wash": 20920.5,
+   "wr": 0.995,
+   "nw": 50,
+   "jito": 0,
+   "solfee": 0.02928
+  },
   {
    "mint": "95HRXCbTkeoGx19syZfFyaWF1XKhNsjuYUR4Q2n6oEv4",
    "vol": 38513.5,
@@ -426,21 +435,12 @@
   },
   {
    "mint": "7RAdzs1cK8XPpj46YVc6i7yxvrSt93y2qKtLWCHHbHJQ",
-   "vol": 4162.0,
-   "wash": 2044.3,
-   "wr": 0.9721,
+   "vol": 5382.9,
+   "wash": 2656.0,
+   "wr": 0.9806,
    "nw": 30,
-   "jito": 0.0001,
-   "solfee": 0.01431
-  },
-  {
-   "mint": "9HzbohXoXQ5vAsFaKrT5QPa2Tr5KPjvgyiK9mjRPf7nV",
-   "vol": 4160.6,
-   "wash": 1856.5,
-   "wr": 0.8859,
-   "nw": 106,
-   "jito": 0.0001,
-   "solfee": 0.0138
+   "jito": 0.0,
+   "solfee": 0.01457
   }
  ]
 }
