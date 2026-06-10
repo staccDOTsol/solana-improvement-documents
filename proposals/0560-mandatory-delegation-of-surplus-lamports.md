@@ -1,5 +1,5 @@
 ---
-simd: 'XXXX'
+simd: '0560'
 title: Mandatory Delegation of Surplus Lamports
 authors:
   - Jarett Dunn (Stacc)
@@ -7,7 +7,7 @@ category: Standard
 type: Core
 status: Idea
 created: 2026-06-10
-feature: TBD (simd_xxxx_mandatory_delegation)
+feature: TBD (simd_0560_mandatory_delegation)
 ---
 
 ## Summary
@@ -147,7 +147,7 @@ edge case. There is no third option; the proposal declines to pretend otherwise.
 
 ### Feature gate
 
-`simd_xxxx_mandatory_delegation`. Single gate; the lazy sweep makes activation
+`simd_0560_mandatory_delegation`. Single gate; the lazy sweep makes activation
 itself cheap and smears the cost over subsequent access patterns.
 
 ## Anticipated Objections
